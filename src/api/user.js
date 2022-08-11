@@ -52,8 +52,8 @@ const setAccess = async(args) => {
   return false;
 }
 
-const doMine = async(args) => {
-  const data = await request({url:'/api/core/user/mine', data:args, method:'post'});
+const doSafe = async(args) => {
+  const data = await request({url:'/api/core/user/safe', data:args, method:'post'});
   if (data && data.code == 0 ) {
     Message({message: '账号编辑处理成功', type: 'success', duration: 3 * 1000});
     return true;
@@ -62,5 +62,5 @@ const doMine = async(args) => {
 }
 
 export default {
-	getList,doSave,doRoleIds,getAccess,setAccess,doMine
+	getList,doSave,doSafe
 };

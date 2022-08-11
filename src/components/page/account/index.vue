@@ -13,16 +13,15 @@
 				<!-- 自定义插槽状态按钮 -->
 				<template slot="col-btn" slot-scope="scope">
 					<el-button class="padding0" type="text" @click="onEdit(scope.row)">编辑</el-button>
-					<el-button class="padding0" type="text" @click="onAccess(scope.row)">授权</el-button>
 				</template>
-                <template slot="col-regtime" slot-scope="scope">{{utils.dateStr(scope.row.regtime, "Y-m-d")}}</template>
-                <template slot="col-expire" slot-scope="scope">{{utils.dateStr(scope.row.expire, "Y-m-d")}}</template>
-                <template slot="col-stime" slot-scope="scope">{{utils.dateStr(scope.row.stime, "Y-m-d")}}</template>
-				<template slot="col-status" slot-scope="scope">{{(dicts.sysUserStatus[scope.row.status])? dicts.sysUserStatus[scope.row.status]:"禁用"}}</template>
+                <template slot="col-regtime" slot-scope="scope">{{utils.dateStr(scope.row.regtime, "Y-m-d h:i:s")}}</template>
+                <template slot="col-expire" slot-scope="scope">{{utils.dateStr(scope.row.expire, "Y-m-d  h:i:s")}}</template>
+                <template slot="col-stime" slot-scope="scope">{{utils.dateStr(scope.row.stime, "Y-m-d  h:i:s")}}</template>
+				<template slot="col-status" slot-scope="scope">{{(dicts.sysStatus[scope.row.status])? dicts.sysStatus[scope.row.status]:"禁用"}}</template>
 			</STtable>
 		</div>
 		<!-- 编辑弹出框 -->
-		<el-dialog :title="page.popTitle" center :visible.sync="page.dialogVisible" :width="page.popWidth">
+		<el-dialog :closeOnClickModal="false" :title="page.popTitle" center :visible.sync="page.dialogVisible" :width="page.popWidth">
 			<div v-if="page.pop == 1 || page.pop == 3" class="pop_box">
 				<STform :ref-obj.sync="formInfo.ref" :data="formInfo.data" :field-list="formInfo.fieldList" :rules="formInfo.rules" :files="formInfo.files"
 					 :listTypeInfo="dictList" label-width="140px"  @handleEvent="handleFormEvent"></STform>
@@ -70,8 +69,6 @@
 				},
 				details: null, //单项数据
 				loading: true,
-                treeLeaf: [], //获取叶子节点
-                treeData: [], //权限树结构
 				tableData: [], //列表数据
 				tables:consts.tables,
 				pagination: { // 分页数据
@@ -98,6 +95,16 @@
 				},
 			}
 		},
+		computed: {
+		    dictList() {
+		      return this.$store.getters["dictSrv/list"];
+		    },
+		    ...mapState({
+		      dicts: (state) => {
+		        return state.dictSrv.data;
+		      },
+		    }),
+		},
 		async created() {
 			await this.fetchData();
 			this.loading = false;
@@ -115,15 +122,9 @@
 			},
 			async onEdit(data) {
 				this.formInfo.ref && this.formInfo.ref.resetFields();
-				this.$store.commit("dictSrv/initSet", {sysOrg:[[data.orgid, data.org]]});
 				data = JSON.parse(JSON.stringify(data));
-                data.regtime = utils.dateStr(data.regtime, "Y-m-d")
-                data.expire  = utils.dateStr(data.expire, "Y-m-d")
-                data.stime   = utils.dateStr(data.stime, "Y-m-d")
-                data.roleids = [];
-                if (data && data.id > 0) {
-                    data.roleids = await userAPI.doRoleIds({userid:data.id});
-                }
+                data.regtime = utils.dateStr(data.regtime, "Y-m-d h:i:s");
+                data.expire  = utils.dateStr(data.expire, "Y-m-d h:i:s");
 				this.formInfo.data = consts.fieldData(data);
 				this.showPop(3);
 			},
@@ -192,13 +193,3 @@
 		}
 	}
 </script>
-
-<style scoped>
-	.el-tree{
-		vertical-align: top;
-		height: 560px;
-		position: relative;
-		overflow:scroll;
-		margin-bottom: 20px;
-	}
-</style>

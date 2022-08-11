@@ -10,7 +10,7 @@
 			</STform>
 			<STtable size="mini" :data.sync="tableData" @doRefresh="fetchData" :field-list="tables"
                 :pagination="pagination" :loading="loading" @handleEvent="handleEvent">
-				<template slot="col-status" slot-scope="scope">{{(dicts.sysRoleStatus[scope.row.status])? dicts.sysRoleStatus[scope.row.status]:"其他"}}</template>
+				<template slot="col-status" slot-scope="scope">{{(dicts.sysStatus[scope.row.status])? dicts.sysStatus[scope.row.status]:"其他"}}</template>
                 <template slot="col-stime" slot-scope="scope">{{utils.dateStr(scope.row.stime, "Y-m-d h:i:s")}}</template>
                 <template slot="col-btn" slot-scope="scope">
                     <el-button size="mini" @click="onStatus(scope.row, 1)">正常</el-button>
@@ -19,7 +19,7 @@
             </STtable>
 		</div>
         <!-- 编辑弹出框 -->
-        <el-dialog :title="page.popTitle" center :visible.sync="page.dialogVisible" :width="page.popWidth">
+        <el-dialog  :closeOnClickModal="false" :title="page.popTitle" center :visible.sync="page.dialogVisible" :width="page.popWidth">
         	<div v-if="page.pop == 1"  class="pop_box">
         		<div class="pop_concent">您确定要重载微服务数据吗？</div>
         		<div slot="footer" class="dialog-footer">

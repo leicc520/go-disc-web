@@ -46,12 +46,6 @@ const dateStr = function(timeStamp, fmt="Y-m-d") {
 	return astr.join("");
 };
 
-const priceStr = function(price) {
-    var fPrice = price / 100.00;
-    fPrice = fPrice.toFixed(2);
-    return fPrice;
-}
-
 export default {
-    dateStr, priceStr
+    dateStr
 };
