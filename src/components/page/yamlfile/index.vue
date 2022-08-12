@@ -111,7 +111,7 @@ export default {
       multipleSelection: [], //选中数据
       sysPageForm: {
         //搜索实际请求的字段
-        name: "",
+        query: "",
       },
       details: null, //单项数据
       loading: true,
@@ -195,7 +195,7 @@ export default {
           }
           var res = await yamlAPI.doSave(data);
           if (res) {
-            await this.fetchData(null);
+            await this.fetchData();
             this.hidePop();
           }
         } else {

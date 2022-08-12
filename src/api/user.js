@@ -1,10 +1,12 @@
 import {request, writeLog} from "@/libs/core.js"
 import { Message } from 'element-ui'
 const getList = async(args) => {
+  console.log(args)
   if (typeof args.status == 'string') {
     args.status = -1;
+  } else {
+    args.status = parseInt(args.status);
   }
-  args.status = parseInt(args.status);
   const data = await request({url:'/api/core/user/list', data:args, method:'post'});
   if (data && data.code == 0 ) {
     return data.datas;

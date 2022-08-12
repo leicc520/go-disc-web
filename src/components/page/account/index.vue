@@ -108,7 +108,7 @@
 		    }),
 		},
 		async created() {
-			await this.fetchData();
+			await this.fetchData({status:-1});
 			this.loading = false;
 		},
 		methods: {
