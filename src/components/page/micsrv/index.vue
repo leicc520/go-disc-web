@@ -12,6 +12,7 @@
                 :pagination="pagination" :loading="loading" @handleEvent="handleEvent">
 				<template slot="col-status" slot-scope="scope">{{(dicts.sysStatus[scope.row.status])? dicts.sysStatus[scope.row.status]:"其他"}}</template>
                 <template slot="col-stime" slot-scope="scope">{{utils.dateStr(scope.row.stime, "Y-m-d h:i:s")}}</template>
+                <template slot="col-addtime" slot-scope="scope">{{utils.dateStr(scope.row.addtime, "Y-m-d h:i:s")}}</template>
                 <template slot="col-btn" slot-scope="scope">
                     <el-button size="mini" @click="onStatus(scope.row, 1)">正常</el-button>
                     <el-button size="mini" type="danger" @click="onStatus(scope.row, 2)">禁用</el-button>
