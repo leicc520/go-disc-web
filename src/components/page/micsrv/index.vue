@@ -19,7 +19,7 @@
             </STtable>
 		</div>
         <!-- 编辑弹出框 -->
-        <el-dialog  :closeOnClickModal="false" :title="page.popTitle" center :visible.sync="page.dialogVisible" :width="page.popWidth">
+        <el-dialog :closeOnClickModal="false" :title="page.popTitle" center :visible.sync="page.dialogVisible" :width="page.popWidth">
         	<div v-if="page.pop == 1"  class="pop_box">
         		<div class="pop_concent">您确定要重载微服务数据吗？</div>
         		<div slot="footer" class="dialog-footer">
@@ -89,6 +89,16 @@
 					},
 				},
 			}
+		},
+		computed: {
+		    dictList() {
+		      return this.$store.getters["dictSrv/list"];
+		    },
+		    ...mapState({
+		      dicts: (state) => {
+		        return state.dictSrv.data;
+		      },
+		    }),
 		},
 		async created() {
 			await this.fetchData();
