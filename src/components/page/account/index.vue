@@ -60,6 +60,8 @@
 				searchInfo: {
 					ref: null,
 					data: { //搜索展示的字段
+						status: '',
+						query: '',
 					},
 					rules: {},
 					searchFormList: consts.searchFormList // 查询列表表单列 数据
