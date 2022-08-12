@@ -136,7 +136,7 @@
 						const data = JSON.parse(JSON.stringify(this.formInfo.data));
 						var res = await userAPI.doSave(data);
 						if (res) {
-							await this.fetchData();
+							await this.fetchData({status:-1});
 							this.hidePop();
 						}
 					} else {
