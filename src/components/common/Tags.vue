@@ -11,13 +11,13 @@
 
 <script>
 import bus from './bus';
+import {mapState} from 'vuex' //本地取信息
 export default {
     data() {
         return {
             tagsList: [
                 {path: '/index', title: '服务管理' , close: 0, name:"microsrv"}, 
-                {path: '/yamlfile', title: '服务配置' , close: 0, name:"yamlfile"}, 
-                {path: '/account', title: '账号管理' , close: 0, name:"account"}
+                {path: '/yamlfile', title: '服务配置' , close: 0, name:"yamlfile"}
             ]
         }
     },
@@ -42,7 +42,12 @@ export default {
     computed: {
         showTags() {
             return this.tagsList.length > 0;
-        }
+        },
+        ...mapState({
+            user: (state) => {
+              return state.adminSrv.user;
+            }
+        })
     },
     watch:{
         $route(newValue, oldValue){
@@ -50,6 +55,9 @@ export default {
         }
     },
     created(){
+        if (this.user && this.user.id == 1) {
+            this.tagsList.push({path: '/account', title: '账号管理' , close: 0, name:"account"});
+        }
         this.setTags(this.$route);
     }
 }
